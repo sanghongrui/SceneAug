@@ -1,0 +1,131 @@
+aug_config_file: configs/augmentation.yaml
+# scene
+scene: aug_igibson
+scene_id: Rs_int
+
+build_graph: true
+load_texture: true
+
+optimized_renderer: true
+enable_shadow: true
+blend_highlight: true
+enable_pbr: true
+enable_shadow: true
+
+pybullet_load_texture: true
+trav_map_type: with_obj
+trav_map_resolution: 0.1
+trav_map_erosion: 3
+should_open_all_doors: true
+not_load_object_categories: ["ceilings", "carpet"]
+floor_map_update_inlcude_categories: [
+    'armchair', 'basket', 'bottom_cabinet', 'bottom_cabinet_no_top', 
+    'breakfast_table', 'chest', 'coffee_maker', 'coffee_table', 'console_table', 
+    'floor_lamp', 'grandfather_clock', 'guitar', 'laptop', 'loudspeaker', 'microwave', 
+    'pillow', 'pool_table', 'pot_plant', 'sofa', 'speaker_system', 'standing_tv', 
+    'stool', 'straight_chair', 'swivel_chair', 'table_lamp', 'trash_can'
+]
+
+# domain randomization
+texture_randomization_freq: null
+object_randomization_freq: null
+
+# robot
+robot:
+  name: Fetch
+  action_type: continuous
+  action_normalize: true
+  base_name: null
+  scale: 1.0
+  self_collision: true
+  rendering_params: null
+  grasping_mode: sticky
+  rigid_trunk: false
+  default_trunk_offset: 0.365
+  default_arm_pose: diagonal45
+  # reset_joint_pos: tuck
+  reset_joint_pos: [
+    0.0, 0.0,
+    0.1032,
+    0.0, 0.0,
+    -1.4140,1.5178,0.8190, 2.2004, 2.9631,-1.2863, 0.0,
+    0.05, 0.05
+  ]
+  controller_config:
+    base:
+      name: DifferentialDriveController
+    arm_0:
+      name: InverseKinematicsController
+      kv: 2.0
+    gripper_0:
+      name: MultiFingerGripperController
+      mode: binary
+    camera:
+      name: JointController
+      use_delta_commands: False
+
+# task
+# task: interactive_nav_random
+task: augmented_interactive_nav_task
+target_dist_min: 1.0
+target_dist_max: 10.0
+goal_format: polar
+task_obs_dim: 4
+
+# reward
+reward_type: geodesic
+success_reward: 10.0
+potential_reward_weight: 1.0
+collision_reward_weight: -0.1
+
+# discount factor
+discount_factor: 0.99
+
+# termination condition
+dist_tol: 0.36  # body width
+max_step: 500
+max_collisions_allowed: 500
+
+# misc config
+initial_pos_z_offset: 0.1
+# ignore collisions with these robot links
+# [0-2]: all wheel links and [12-21]: all arm links
+collision_ignore_link_a_ids: [0, 1, 2, 12,13,14,15,16,17,18,19,20,21]  
+collision_ignore_body_b_ids: [] # ignore collisions with these body b
+
+# sensor spec
+output: [task_obs, rgb, depth]
+# output: [task_obs, rgb, depth, scan]
+# image
+# Intel Realsense Depth Camera D435
+# https://store.intelrealsense.com/buy-intel-realsense-depth-camera-d435.html
+fisheye: false
+# image_width: 320
+# image_height: 180
+# vertical_fov: 42.5
+image_width: 512
+image_height: 512
+vertical_fov: 90
+# depth
+depth_low : 0.35
+depth_high: 3.0
+
+# scan
+# SICK TIM571 scanning range finder
+# https://docs.fetchrobotics.com/robot_hardware.html
+# n_horizontal_rays is originally 661, sub-sampled 1/3
+# n_horizontal_rays: 220
+# n_vertical_beams: 1
+# laser_linear_range: 25.0
+# laser_angular_range: 220.0
+# min_laser_dist: 0.05
+# laser_link_name: laser_link
+
+# sensor noise
+depth_noise_rate: 0.0
+# scan_noise_rate: 0.0
+
+# visual objects
+visible_target: False
+visible_path: False
+
