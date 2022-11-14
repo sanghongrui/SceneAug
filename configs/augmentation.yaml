@@ -1,41 +1,50 @@
 #scene_random, room_instance_random, random_remove, random_open, none
-trav_map_erosion: 3
-prob: 1.0
+name: random_none
 
-# name: scene_random
-# name: room_instance_random
-# erosion_factor: 0.6 # >0.5
-# "laptop",
-# include_categories: [
-# "armchair", "straight_chair", "swivel_chair", 
-# "basket", "trash_can", "pillow","loudspeaker", "guitar", 
-# "console_table", "stool", 
-# ]
-# include_categories: [
-#   "armchair", "straight_chair", "swivel_chair", 
-#   "trash_can", "pillow","loudspeaker", "guitar", 
-#   "console_table",
-# ]
-# exclude_dict: {"Wainscott_0_int":["armchair_38"]}
+base:
+  trav_map_erosion: 3
+  prob: 0.5
 
-# name: random_remove
-# remove_threshold: 0.5
-# erasing_area_ratio: [0.02, 0.2]
-# min_aspect_ratio: 2.0
-# exclude_categories: [
-#   'floors', 'rail_fence', 'toilet', 'window', 'towel_rack', 
-#   'walls', 'sink', 'mirror', 'bed', 'shower', 'object', 'agent'
-# ]
+scene_random:
+  # erosion_factor: 1.2
+  erosion_factor: 0.6
+  # "laptop",
+  include_categories: [
+    "armchair", "straight_chair", "swivel_chair",
+    "basket", "trash_can", "pillow","loudspeaker", "guitar", 
+    "console_table", "stool", 
+  ]
+  exclude_dict: {"Wainscott_0_int":["armchair_38"]}
 
-name: random_open
-# include_categories: [
-#   "top_cabinet", "bottom_cabinet_no_top",  "washer", 
-#   "door","window", "oven", "dryer", "dishwasher", "fridge", 
-#   "microwave", "chest", "stove", "bottom_cabinet", "laptop"
-# ]
-include_categories: [
-  "bottom_cabinet_no_top", "door", 
-  "fridge", "chest", "bottom_cabinet"
-]
+room_instance_random: 
+# erosion_factor: 1.2
+  erosion_factor: 0.6
+  # "laptop",
+  include_categories: [
+    "armchair", "straight_chair", "swivel_chair",
+    "basket", "trash_can", "pillow","loudspeaker", "guitar", 
+    "console_table", "stool", 
+  ]
+  exclude_dict: {"Wainscott_0_int":["armchair_38"]}
 
-# name: random_none
+random_remove:
+  remove_threshold: 0.5
+  erasing_area_ratio: [0.02, 0.2]
+  min_aspect_ratio: 0.3
+  exclude_categories: [
+    'floors', 'rail_fence', 'toilet', 'window', 'towel_rack', 
+    'walls', 'sink', 'mirror', 'bed', 'shower', 'object', 'agent'
+  ]
+
+random_open:
+  include_categories: [
+    "door",
+  ]
+  # include_categories: [
+  #   "top_cabinet", "bottom_cabinet_no_top",  "washer", 
+  #   "door","window", "oven", "dryer", "dishwasher", "fridge", 
+  #   "microwave", "chest", "stove", "bottom_cabinet", "laptop"
+  # ]
+
+random_none:
+  none: none

@@ -25,5 +25,9 @@ and other requirements for iGibson
 
 To run test these methods, one can simply run the example file with **python example.py** ; 
 
-The **augmentation.yaml** file is for configuring the augmentation method.
+The **configs/augmentation.yaml** file is for configuring the augmentation method.
+
+## Todo
+
+* Add more detailed information.
 
