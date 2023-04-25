@@ -67,8 +67,9 @@ parser.add_argument(
 
 args = parser.parse_args()
 args.config = "configs/fetch_interactive_nav.yaml"
-args.mode = "gui_interactive"   #"gui_interactive"
-args.scene_id = "Benevolence_1_int"
+args.mode = "headless"   #"gui_interactive"
+args.scene_id = "Rs_int"
+args.scene_aug_type = "random_open"
 args.scene_id = args.scene_id if args.scene_id != "" else None
 
 igibson_config = parse_config(args.config)
@@ -103,26 +104,25 @@ if args.mode == "gui_interactive":
         viewer.initial_view_direction = [0.0, 0.0, -1.0]
 
 for episode in range(100):
-    start = time.time()
     
     env.reset()
-    cv2.imshow("floor_map", cv2.flip(cv2.resize(env.scene.floor_map[0], (512,512)), 0))
-    highlight_categories(env.scene, ["bottom_cabinet_no_top", "door", "fridge", "chest", "bottom_cabinet"])
+    # cv2.imshow("floor_map", cv2.flip(cv2.resize(env.scene.floor_map[0], (512,512)), 0))
+    # highlight_categories(env.scene, ["bottom_cabinet_no_top", "door", "fridge", "chest", "bottom_cabinet"])
     
     print("Episode: {}".format(episode))
-    print("-" * 80)
-    for i in range(10):  # 10 seconds
+    # print("-" * 80)
+    # for i in range(10):  # 10 seconds
         
-        action = env.action_space.sample()
-        state, reward, done, _ = env.step(action)
-        env.simulator.sync(force_sync=True)
+    #     action = env.action_space.sample()
+    #     state, reward, done, _ = env.step(action)
+    #     env.simulator.sync(force_sync=True)
         
-        cv2.imshow("map", cv2.flip(cv2.resize(env.scene.floor_map[0],(512,512)), 0))
-        print("\nStep: ", i)
-        print("Reward: ", reward)
-        if done:
-            break
-    print("Episode finished after {} timesteps, took {} seconds.".format(env.current_step, time.time() - start))
-    print("-" * 80 + "\n")
+    #     cv2.imshow("map", cv2.flip(cv2.resize(env.scene.floor_map[0],(512,512)), 0))
+    #     print("\nStep: ", i)
+    #     print("Reward: ", reward)
+    #     if done:
+    #         break
+    # print("Episode finished after {} timesteps, took {} seconds.".format(env.current_step, time.time() - start))
+    # print("-" * 80 + "\n")
 
 env.close()

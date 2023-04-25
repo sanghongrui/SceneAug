@@ -3,7 +3,7 @@ name: random_none
 
 base:
   trav_map_erosion: 3
-  prob: 0.5
+  prob: 1.0
 
 scene_random:
   # erosion_factor: 1.2

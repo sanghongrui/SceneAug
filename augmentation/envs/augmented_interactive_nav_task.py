@@ -15,6 +15,9 @@ from igibson.tasks.point_nav_random_task import PointNavRandomTask
 from igibson.reward_functions.point_goal_reward import PointGoalReward
 from igibson.reward_functions.potential_reward import PotentialReward
 
+import time
+from efficiency_analysis import writer
+
 
 class AugmentedInteractiveNavTask(PointNavRandomTask):
     """
@@ -58,7 +61,11 @@ class AugmentedInteractiveNavTask(PointNavRandomTask):
         #load init_scene
         env.scene.load_task_specified_scene(env, self.task_specified_scene_config, self.floor_num)
 
+        timer_start = time.time()
         env.scene.augmentation.run(env)
+        timer_end = time.time()
+        per_time = (timer_end - timer_start)*1000   # in millisecond format
+        writer(env.scene.augmentation._name + "_efficiency.log", per_time)
 
         # add aabb in env.scene.object_states
         for obj_name in env.scene.object_states:

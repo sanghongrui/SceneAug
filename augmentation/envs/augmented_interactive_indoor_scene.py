@@ -227,11 +227,12 @@ class AugInteractiveIndoorScene(InteractiveIndoorScene):
     def is_object_alone_on_floor(self, floor, obj):
         """
         @description:An object is considered to be alone on floor, when its VerticalAdjacency 
-        only contain floor whose body_id is 3
+        only contain floor whose body_id is 3. And is considered to be a support, 
+        when positive_contacts has non-fixed objects.
         ---------
         @param  obj: obj instance
         -------
-        @Returns below_other: object is below others , 
+        @Returns is_support: object is a support for others , 
         @Returns is_alone: object is not below or above others
         -------
         """
@@ -243,11 +244,20 @@ class AugInteractiveIndoorScene(InteractiveIndoorScene):
 
         va = obj.states[object_states.VerticalAdjacency].get_value()
         vertical_adjacency_list = va.negative_neighbors + va.positive_neighbors
-
-        below_others = len(va.positive_neighbors) != 0
         is_alone = vertical_adjacency_list == scene_floor_id
+        
+        is_support = False
+        if len(va.positive_neighbors) != 0:
+            contacts = obj.states[object_states.ContactBodies].get_value()
+            contacts = [c.bodyUniqueIdB for c in contacts]
+            positive_contacts = set(va.positive_neighbors) & set(contacts)
+            for id in positive_contacts:
+                o = self.objects_by_id[id]
+                if not hasattr(o, 'fixed_base') or not o.fixed_base:
+                    is_support = True
+                    break
 
-        return below_others, is_alone
+        return is_support, is_alone
     
     def get_obj_aabb_map(self, obj):
         """

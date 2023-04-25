@@ -16,7 +16,7 @@ from typing import List, Dict, Tuple
 from abc import abstractmethod
 # from igibson import object_states
 from igibson.utils.utils import restoreState
-from common.baseline_registry import baseline_registry
+from baseline_registry import baseline_registry
 from augmentation.methods.random_base import Augmentation_Base
 from augmentation.envs.augmented_env import AugmentedEnv
 
@@ -59,7 +59,7 @@ class Random_Placement(Augmentation_Base):
             objs = self.scene.objects_by_category[c]
             self.random_objects(env, objs)
 
-            print("Finished randomizing %s category" % c)
+            # print("Finished randomizing %s category" % c)
     
     def random_objects(self, env:AugmentedEnv, room_random_objects):
         """
@@ -78,12 +78,12 @@ class Random_Placement(Augmentation_Base):
         for obj in room_random_objects:
             is_exclude = self._is_in_exclude_dict(obj.name)
             if is_exclude:
-                print("WARNING: skip randomlizing %s, it is in exclude dict." %obj.name)
+                # print("WARNING: skip randomlizing %s, it is in exclude dict." %obj.name)
                 continue
             
-            below_others, is_alone = env.scene.is_object_alone_on_floor(floor, obj)
-            if below_others:
-                print("WARNING: skip randomlizing %s, it is below others." %obj.name)
+            is_support, is_alone = env.scene.is_object_alone_on_floor(floor, obj)
+            if is_support:
+                # print("WARNING: skip randomlizing %s, it is below others." %obj.name)
                 continue
             
             # TODO: p.saveState takes a few seconds, need to speed up

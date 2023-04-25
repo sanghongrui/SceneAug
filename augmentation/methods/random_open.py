@@ -9,7 +9,7 @@
 '''
 # here put the import lib
 from typing import List
-from common.baseline_registry import baseline_registry
+from baseline_registry import baseline_registry
 from augmentation.methods.random_base import Augmentation_Base
 
 @baseline_registry.register_augmentation_method(name="random_open")
